@@ -31,10 +31,14 @@ function importData(file, inputElement) {
         try {
             const importedState = JSON.parse(e.target.result);
             if (importedState && typeof importedState === 'object') {
-                appState = { ...DEFAULT_STATE, ...importedState };
-                saveState();
-                alert('ÚSPĚCH: Data byla úspěšně nahrána a uložena.');
-                location.reload(); 
+                if (confirm('UPOZORNĚNÍ: Import dat přepíše všechna současná data aplikace. Opravdu chcete pokračovat a nahrát zálohu?')) {
+                    appState = { ...DEFAULT_STATE, ...importedState };
+                    saveState();
+                    alert('ÚSPĚCH: Data byla úspěšně nahrána a uložena.');
+                    location.reload(); 
+                }
+            } else {
+                alert('CHYBA: Soubor neobsahuje platnou strukturu dat KoBeVy.');
             }
         } catch (err) {
             alert('CHYBA: Soubor se nepodařilo přečíst. Ujistěte se, že jde o platný JSON export.');
@@ -42,7 +46,7 @@ function importData(file, inputElement) {
         if (inputElement) inputElement.value = '';
     };
     reader.onerror = function() {
-        alert('CHYBA při nahrávání souboru.');
+        alert('CHYBA při nahrávání souboru. Zkuste to prosím znovu.');
         if (inputElement) inputElement.value = '';
     };
     reader.readAsText(file);
@@ -997,11 +1001,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('import-btn').addEventListener('click', () => importInput.click());
     importInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) {
-            if (confirm('Opravdu chcete přepsat aktuální data novými daty ze zálohy?')) {
-                importData(e.target.files[0], importInput);
-            } else {
-                importInput.value = ''; 
-            }
+            importData(e.target.files[0], importInput);
         }
     });
 
