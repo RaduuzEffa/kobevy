@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KoBeVy</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <!-- Ikony pro web, iPhone, iPad a macOS -->
+    <link rel="icon" type="image/png" href="BV_logo.png">
+    <link rel="apple-touch-icon" href="BV_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Boční navigační panel -->
+        <aside class="sidebar glass">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <img src="BV_logo.png" alt="KoBeVy Logo" style="max-width: 80px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+            </div>
+            <h2><span style="background: linear-gradient(to right, #3b82f6, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 2px 10px rgba(59, 130, 246, 0.2);">KoBeVy</span></h2>
+            <nav>
+                <button class="nav-btn active" data-target="dashboard">Výzvy</button>
+                <button class="nav-btn" data-target="personalia">Členové týmu</button>
+                <button class="nav-btn" data-target="zasedani">Kalendář a zasedání</button>
+                <button class="nav-btn" data-target="porady">Koordinační porady</button>
+                <button class="nav-btn" data-target="nastaveni">Nastavení</button>
+            </nav>
+        </aside>
+        
+        <!-- Hlavní obsahová část -->
+        <main class="content glass-panel">
+            
+            <!-- Dashboard / Výzvy -->
+            <section id="dashboard" class="view active">
+                <header class="view-header">
+                    <h1>Dashboard</h1>
+                    <button id="add-vyzva-btn" class="btn primary">Přidat výzvu</button>
+                </header>
+                
+                <!-- Rychlý přehled (Summary) -->
+                <div class="summary-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="glass card" style="text-align: center; padding: 1rem;">
+                        <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem;" id="dash-vyzvy-count">0</h3>
+                        <p class="meta" style="font-size: 1rem;">Aktivních výzev</p>
+                    </div>
+                    <div class="glass card" style="text-align: center; padding: 1rem;">
+                        <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem;" id="dash-osoby-count">0</h3>
+                        <p class="meta" style="font-size: 1rem;">Členů týmu</p>
+                    </div>
+                    <div class="glass card" style="text-align: center; padding: 1rem;">
+                        <h3 style="font-size: 2.5rem; margin-bottom: 0.5rem;" id="dash-zasedani-count">0</h3>
+                        <p class="meta" style="font-size: 1rem;">Porady a zasedání</p>
+                    </div>
+                </div>
+
+                <!-- Nadcházející události -->
+                <h2 style="margin-bottom: 1rem; font-size: 1.5rem;">Nadcházející události</h2>
+                <div id="dash-upcoming" class="list-container" style="margin-bottom: 2.5rem;">
+                    <!-- Zde se generují nejbližší akce -->
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 style="font-size: 1.5rem; margin: 0;">Aktuální výzvy</h2>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <button id="export-year-txt-btn" class="btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border); padding: 0.5rem 0.8rem; font-size: 0.85rem;" title="Vyexportuje zobrazené výzvy tohoto roku do TXT dokumentu">Export (TXT)</button>
+                        <select id="dash-year-filter" style="margin: 0; padding: 0.5rem 1rem; border-radius: 8px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--glass-border); font-family: 'Inter', sans-serif; cursor: pointer;">
+                            <option value="all">Všechny roky</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="vyzvy-list" class="card-grid">
+                    <!-- Zde se budou generovat karty výzev z LocalStorage -->
+                </div>
+            </section>
+
+            <!-- Členové týmu -->
+            <section id="personalia" class="view">
+                <header class="view-header">
+                    <h1>Členové týmu</h1>
+                    <div style="display: flex; gap: 1rem;">
+                        <button id="copy-emails-btn" class="btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--glass-border);" title="Hromadně zkopíruje všechny zadané e-maily">Kopírovat e-maily</button>
+                        <button id="add-osoba-btn" class="btn primary">Přidat člena</button>
+                    </div>
+                </header>
+                <div id="personalia-list" class="list-container">
+                    <!-- Zde se budou generovat seznamy osob -->
+                </div>
+            </section>
+
+            <!-- Zasedání -->
+            <section id="zasedani" class="view">
+                <header class="view-header">
+                    <h1>Kalendář a zasedání</h1>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <select id="zasedani-filter" style="margin: 0; padding: 0.5rem 1rem; border-radius: 8px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--glass-border); font-family: 'Inter', sans-serif; cursor: pointer;">
+                            <option value="all">Všechny akce</option>
+                            <option value="upcoming">Nadcházející</option>
+                            <option value="past">Proběhlé</option>
+                        </select>
+                        <button id="add-zasedani-btn" class="btn primary">Nové zasedání</button>
+                    </div>
+                </header>
+                <div id="zasedani-list" class="list-container">
+                    <!-- Zde se budou generovat karty zasedání vč. přiřazení zástupců a zápisů -->
+                </div>
+            </section>
+
+            <!-- Koordinační porady -->
+            <section id="porady" class="view">
+                <header class="view-header">
+                    <h1>Koordinační porady</h1>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <select id="porady-filter" style="margin: 0; padding: 0.5rem 1rem; border-radius: 8px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--glass-border); font-family: 'Inter', sans-serif; cursor: pointer;">
+                            <option value="all">Všechny akce</option>
+                            <option value="upcoming">Nadcházející</option>
+                            <option value="past">Proběhlé</option>
+                        </select>
+                        <button id="add-porada-btn" class="btn primary">Nová porada</button>
+                    </div>
+                </header>
+                <div id="porady-list" class="list-container">
+                     <!-- Zde se budou generovat záznamy měsíčních porad -->
+                </div>
+            </section>
+
+            <!-- Nastavení / Zálohování -->
+            <section id="nastaveni" class="view">
+                <h1>Nastavení a Zálohování</h1>
+                
+                <div class="settings-grid">
+                    <div class="settings-card glass">
+                        <h3>Export dat</h3>
+                        <p>Stáhněte si kompletní lokální databázi (JSON) k offline zálohování.</p>
+                        <button id="export-btn" class="btn primary">Exportovat data</button>
+                    </div>
+                    
+                    <div class="settings-card glass border-danger">
+                        <h3>Import dat</h3>
+                        <p>Obnovte aplikaci ze zálohy. <br><strong>Pozor:</strong> Aktuální data budou nenávratně přepsána!</p>
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                        <button id="import-btn" class="btn danger">Importovat data ze souboru</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Modals -->
+    <div id="modal-vyzva" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" data-modal="modal-vyzva">&times;</span>
+            <h2 id="modal-vyzva-title">Nová výzva</h2>
+            <form id="form-vyzva">
+                <div class="form-group">
+                    <label>Program (např. OPSEC, IMPACT)</label>
+                    <input type="text" id="vyzva-program" required>
+                </div>
+                <div class="form-group">
+                    <label>Název výzvy</label>
+                    <input type="text" id="vyzva-nazev" required>
+                </div>
+                <div class="form-group">
+                    <label>Popis</label>
+                    <textarea id="vyzva-popis" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Termín uzávěrky</label>
+                    <input type="date" id="vyzva-termin" required>
+                </div>
+                <div class="form-group">
+                    <label>Termín hodnocení</label>
+                    <input type="date" id="vyzva-hodnoceni">
+                </div>
+                <div class="form-group">
+                    <label>Finanční alokace (v Kč)</label>
+                    <input type="number" id="vyzva-alokace" step="1000" min="0">
+                </div>
+                <button type="submit" id="modal-vyzva-submit" class="btn primary">Uložit výzvu</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-osoba" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" data-modal="modal-osoba">&times;</span>
+            <h2 id="modal-osoba-title">Nový člen</h2>
+            <form id="form-osoba">
+                <div class="form-group">
+                    <label>Jméno a příjmení</label>
+                    <input type="text" id="osoba-jmeno" required>
+                </div>
+                <div class="form-group">
+                    <label>Přiřazené Programy / Rady / Role</label>
+                    <input type="text" id="osoba-role" placeholder="Např. Hodnotitel, IMPACT 2 (více oddělte čárkou)" required>
+                </div>
+                <div class="form-group">
+                    <label>Odbor / Útvar</label>
+                    <input type="text" id="osoba-odbor" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefon</label>
+                    <input type="tel" id="osoba-telefon">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="osoba-email">
+                </div>
+                <button type="submit" id="modal-osoba-submit" class="btn primary">Uložit člena</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal pro Zasedání -->
+    <div id="modal-zasedani" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" data-modal="modal-zasedani">&times;</span>
+            <h2 id="modal-zasedani-title">Nové zasedání</h2>
+            <form id="form-zasedani">
+                <div class="form-group">
+                    <label>Název zasedání / orgánu</label>
+                    <input type="text" id="zasedani-nazev" required>
+                </div>
+                <div class="form-group">
+                    <label>Datum a čas</label>
+                    <input type="datetime-local" id="zasedani-datum" required>
+                </div>
+                <div class="form-group">
+                    <label>Členové týmu (Účast / Omluva)</label>
+                    <div id="zasedani-clenove-seznam" style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--glass-border); max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <!-- Generováno přes JS -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Další účastníci / Hosté</label>
+                    <input type="text" id="zasedani-ucastnici-externi" placeholder="Oddělte čárkou">
+                </div>
+                <div class="form-group">
+                    <label>Další omluvení</label>
+                    <input type="text" id="zasedani-omluveni-externi" placeholder="Oddělte čárkou">
+                </div>
+                <div class="form-group">
+                    <label>Zápis / Závěry</label>
+                    <textarea id="zasedani-zapis" rows="4"></textarea>
+                </div>
+                <button type="submit" id="modal-zasedani-submit" class="btn primary">Uložit zasedání</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal pro Porady -->
+    <div id="modal-porada" class="modal">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" data-modal="modal-porada">&times;</span>
+            <h2 id="modal-porada-title">Nová koordinační porada</h2>
+            <form id="form-porada">
+                <div class="form-group">
+                    <label>Téma porady</label>
+                    <input type="text" id="porada-tema" required>
+                </div>
+                <div class="form-group">
+                    <label>Datum a čas</label>
+                    <input type="datetime-local" id="porada-datum" required>
+                </div>
+                <div class="form-group">
+                    <label>Členové týmu (Účast / Omluva)</label>
+                    <div id="porada-clenove-seznam" style="background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 8px; border: 1px solid var(--glass-border); max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <!-- Generováno přes JS -->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Další účastníci / Hosté</label>
+                    <input type="text" id="porada-ucastnici-externi" placeholder="Oddělte čárkou">
+                </div>
+                <div class="form-group">
+                    <label>Další omluvení</label>
+                    <input type="text" id="porada-omluveni-externi" placeholder="Oddělte čárkou">
+                </div>
+                <div class="form-group">
+                    <label>Úkoly / Výstupy</label>
+                    <textarea id="porada-ukoly" rows="4"></textarea>
+                </div>
+                <button type="submit" id="modal-porada-submit" class="btn primary">Uložit poradu</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal pro výběr E-mailů -->
+    <div id="modal-emaily" class="modal">
+        <div class="modal-content glass-panel" style="max-width: 600px;">
+            <span class="close-btn" data-modal="modal-emaily">&times;</span>
+            <h2>Výběr adresátů</h2>
+            <p class="meta" style="margin-bottom: 1rem;">Zaškrtněte členy týmu, kterým chcete odeslat e-mail:</p>
+            <div id="email-checkbox-list" style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid var(--glass-border); margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                <!-- Dynamicky generovaný seznam členů s e-mailem -->
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <button type="button" id="emaily-select-all" class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 0.4rem 0.8rem; font-size: 0.85rem;">Vybrat vše</button>
+                    <button type="button" id="emaily-deselect-all" class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 0.4rem 0.8rem; font-size: 0.85rem;">Zrušit výběr</button>
+                </div>
+                <button type="button" id="confirm-copy-emails-btn" class="btn primary">Zkopírovat vybrané</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

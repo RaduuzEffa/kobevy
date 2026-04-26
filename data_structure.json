@@ -1,0 +1,36 @@
+{
+  "vyzvy": [
+    {
+      "id": "v1",
+      "nazev": "IMPACT 2026",
+      "popis": "Výzva zaměřená na využití AI v operativní činnosti.",
+      "termin": "2026-10-01",
+      "stav": "Aktivní"
+    }
+  ],
+  "personalia": [
+    {
+      "id": "p1",
+      "jmeno": "Jan Novák",
+      "role": "Zástupce",
+      "odbor": "Odbor analytiky"
+    }
+  ],
+  "zasedani": [
+    {
+      "id": "z1",
+      "nazev": "Hodnotící panel IMPACT",
+      "datum": "2026-05-15T10:00",
+      "ucastnici": ["p1"],
+      "zapis": "Proběhlo schválení metodiky..."
+    }
+  ],
+  "porady": [
+    {
+      "id": "por1",
+      "datum": "2026-05-01T14:00",
+      "agenda": "Příprava na panel",
+      "zavery": "Zástupci si připraví reporty z minulého kvartálu."
+    }
+  ]
+}
