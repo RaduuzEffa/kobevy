@@ -136,6 +136,76 @@ function renderDashboard() {
         `;
         container.appendChild(div);
     });
+
+    const dashVyzvyContainer = document.getElementById('dash-vyzvy-list');
+    if (dashVyzvyContainer) {
+        dashVyzvyContainer.innerHTML = '';
+        
+        const formatCurrency = (val) => new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'CZK', maximumFractionDigits: 0 }).format(val);
+
+        const currentYearString = currentYear.toString();
+        // Bereme výzvy pro letošní rok - i probíhající a čekající na hodnocení
+        const letosniVyzvy = appState.vyzvy.filter(v => {
+            if (!v.termin && !v.hodnoceni) return true;
+            let termYear = v.termin ? parseInt(v.termin.substring(0, 4)) : 0;
+            let hodnYear = v.hodnoceni ? parseInt(v.hodnoceni.substring(0, 4)) : 0;
+            return Math.max(termYear, hodnYear) === currentYear;
+        });
+
+        if (letosniVyzvy.length === 0) {
+            dashVyzvyContainer.innerHTML = '<p class="meta" style="color: var(--text-muted); grid-column: 1 / -1;">Pro tento rok zatím nejsou zadané žádné výzvy.</p>';
+        } else {
+            const grouped = {};
+            letosniVyzvy.forEach(v => {
+                const prog = v.program || 'Nezařazené výzvy';
+                if (!grouped[prog]) grouped[prog] = { total: 0, items: [] };
+                grouped[prog].items.push(v);
+                grouped[prog].total += (parseFloat(v.alokace) || 0);
+            });
+
+            Object.keys(grouped).sort().forEach(progName => {
+                const group = grouped[progName];
+                const celkovaAlokaceProgramu = (appState.programy && appState.programy[progName]) ? appState.programy[progName].celkovaAlokace : null;
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.style.gridColumn = '1 / -1';
+                headerDiv.style.marginTop = '1rem';
+                headerDiv.style.marginBottom = '0.5rem';
+                headerDiv.style.padding = '1rem 1.5rem';
+                headerDiv.style.background = 'rgba(59, 130, 246, 0.15)';
+                headerDiv.style.borderRadius = '12px';
+                headerDiv.style.borderLeft = '4px solid var(--accent)';
+                
+                headerDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <h3 style="margin:0;">📂 Program: <strong>${progName}</strong></h3>
+                        <div style="text-align: right;">
+                            ${celkovaAlokaceProgramu ? `
+                                <div style="font-size: 0.95rem; color: var(--text-muted);">Celkový rozpočet programu: <strong style="color: white;">${formatCurrency(celkovaAlokaceProgramu)}</strong></div>
+                                <div style="color: #34d399; font-size: 1.05rem; margin-top: 0.25rem;">Rozděleno ve výzvách: ${formatCurrency(group.total)}</div>
+                            ` : `
+                                <div style="color: #34d399; font-size: 1.1rem;">Rozděleno ve výzvách: ${formatCurrency(group.total)}</div>
+                            `}
+                        </div>
+                    </div>
+                `;
+                dashVyzvyContainer.appendChild(headerDiv);
+
+                group.items.forEach(vyzva => {
+                    const div = document.createElement('div');
+                    div.className = 'card glass';
+                    div.innerHTML = `
+                        <h3>${vyzva.nazev}</h3>
+                        <p class="meta">Termín uzávěrky: ${vyzva.termin || 'Nenastaven'}</p>
+                        ${vyzva.hodnoceni ? `<p class="meta" style="color: #34d399; font-weight: 600;">Termín hodnocení: ${vyzva.hodnoceni}</p>` : ''}
+                        ${vyzva.alokace ? `<p class="meta" style="color: var(--text-main); margin-top: 0.25rem;">Alokace: <strong>${formatCurrency(vyzva.alokace)}</strong></p>` : ''}
+                        <p style="margin-top: 0.5rem;" class="dash-vyzva-desc">${vyzva.popis}</p>
+                    `;
+                    dashVyzvyContainer.appendChild(div);
+                });
+            });
+        }
+    }
 }
 
 function renderVyzvy() {
@@ -157,7 +227,7 @@ function renderVyzvy() {
     // Seskupení podle programu
     const grouped = {};
     filtered.forEach(v => {
-        const prog = v.program || 'Nezarazené výzvy';
+        const prog = v.program || 'Nezařazené výzvy';
         if (!grouped[prog]) grouped[prog] = { total: 0, items: [] };
         grouped[prog].items.push(v);
         grouped[prog].total += (parseFloat(v.alokace) || 0);

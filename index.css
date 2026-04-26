@@ -444,4 +444,8 @@ h1 {
         display: flex;
         justify-content: flex-end;
     }
+
+    .dash-vyzva-desc {
+        display: none;
+    }
 }

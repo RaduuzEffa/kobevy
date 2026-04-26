@@ -1,0 +1,93 @@
+{
+  "vyzvy": [
+    {
+      "id": "v_1777195734768",
+      "nazev": "1. Veřejná soutěž _ (Podprogram 1 - Centra spolupráce)",
+      "popis": "Stav aktuální výzvy (1. veřejná soutěž - Podprogram 1): Sběr návrhů do první veřejné soutěže pro \"Centra spolupráce\" skončil v prosinci 2025. Nyní projekty procházejí hodnoticím procesem, přičemž výsledky budou oficiálně vyhlášeny nejpozději do 30. června 2026.\n\nCo to znamená pro koordinátora: Přesně jak zmiňuješ v materiálu, v programech IMPACT momentálně běží hodnocení. Pro tebe a tvé zástupce je teď naprosto kritické hlídat termíny hodnoticích panelů. Je to ideální čas uplatnit metodiku – tedy zajistit před zasedáním panelu pre-briefing a následně ihned po jednání od zástupců vyžadovat reporting, zejména ty zásadní „zákulisní informace“.",
+      "termin": "2025-12-31",
+      "hodnoceni": "2026-06-30",
+      "program": "IMPAKT 2 (2026 - 2031)",
+      "alokace": "650000000"
+    },
+    {
+      "id": "v_1777197250253",
+      "nazev": "Program OPSEC (2023–2029) – Otevřené výzvy",
+      "popis": "Tento program se soustředí na aplikovaný výzkum (např. krizová připravenost, ochrana kritické infrastruktury, rozvoj schopností vymáhání práva).\n\nStav: Druhá veřejná soutěž se uzavřela na jaře 2025. Podpořené projekty, na které MV ČR alokovalo stamiliony korun, právě zahájily svou realizaci (od ledna 2026).\n\nVýhled do aplikace: Ministerstvo vnitra v rámci tohoto programu brzy vyhlásí další, 3. veřejnou soutěž. Určitě si tedy do své aplikace k \"Programu OPSEC\" nastav dohled, aby ti termín vyhlášení neunikl.",
+      "termin": "2025-03-31",
+      "hodnoceni": "2025-05-28"
+    },
+    {
+      "id": "v_1777199395618",
+      "nazev": "Program SECTECH (2021–2026) – Dobíhající výzvy",
+      "popis": "Program zaměřený převážně na vývoj a testování nových technologií jako je robotika, kyberbezpečnost a umělá inteligence.\n\nStav: Tento program letos končí a žádné nové výzvy se do něj již nebudou vypisovat. Projekty ze starších výzev (z let 2021 a 2023) se nyní nacházejí ve fázi finálních výstupů a zkoušek.",
+      "termin": "2021-12-31",
+      "hodnoceni": "2022-03-31"
+    }
+  ],
+  "personalia": [
+    {
+      "id": "p_1777200558240",
+      "jmeno": "plk. Mgr. Jan Mareš",
+      "role": [
+        "Hodnotitel"
+      ],
+      "odbor": "Vedoucí OVVI",
+      "telefon": "+420 725 798 906",
+      "email": "jan.mares1@pcr.cz"
+    },
+    {
+      "id": "p_1777201399763",
+      "jmeno": "pplk. Ing. Richard Sehnal, Ph.D.",
+      "role": [
+        "OPSEC"
+      ],
+      "odbor": "OVVI",
+      "telefon": "+420 737 155 087",
+      "email": "richard.sehnal@pcr.cz"
+    }
+  ],
+  "zasedani": [
+    {
+      "id": "z_1777202705828",
+      "nazev": "Rada1",
+      "datum": "2026-05-12T15:00",
+      "zapis": "",
+      "ucastnici": "plk. Mgr. Jan Mareš",
+      "omluveni": ""
+    }
+  ],
+  "porady": [
+    {
+      "id": "pr_1777202813696",
+      "tema": "1. Koordinační porada týmu",
+      "datum": "2026-05-19T10:00",
+      "ukoly": "1. Seznámení\n2. Nastavení fungování\n3. Diskuze",
+      "ucastnici": "plk. Mgr. Jan Mareš",
+      "omluveni": "pplk. Ing. Richard Sehnal, Ph.D."
+    },
+    {
+      "id": "pr_1777203560266",
+      "tema": "Zkouška",
+      "datum": "2026-04-27T10:00",
+      "ukoly": "",
+      "ucastnici": "plk. Mgr. Jan Mareš",
+      "omluveni": ""
+    },
+    {
+      "id": "pr_1777203594563",
+      "tema": "Akce",
+      "datum": "2025-02-12T12:00",
+      "ukoly": "",
+      "ucastnici": "pplk. Ing. Richard Sehnal, Ph.D.",
+      "omluveni": ""
+    }
+  ],
+  "programy": {
+    "IMPAKT 2": {
+      "celkovaAlokace": 1775000000
+    },
+    "IMPAKT 2 (2026 - 2031)": {
+      "celkovaAlokace": 1775000000
+    }
+  }
+}
