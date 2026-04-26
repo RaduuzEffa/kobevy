@@ -1,4 +1,4 @@
-const CACHE_NAME = 'crva-pcr-cache-v1';
+const CACHE_NAME = 'crva-pcr-cache-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -31,13 +31,21 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Interceptování požadavků a jejich servírování z Cache, pokud jsme offline
+// Interceptování požadavků: NETWORK FIRST (zajistí okamžité aktualizace, pokud jsme online)
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        // Pokud najdeme soubor v cache, vrátíme jej, jinak zkusíme stáhnout z netu
-        return response || fetch(event.request);
+        // Uložíme si novou verzi do cache pro budoucí offline použití
+        const responseClone = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseClone);
+        });
+        return response;
+      })
+      .catch(() => {
+        // Pokud jsme offline (fetch selže), sáhneme do lokální cache
+        return caches.match(event.request);
       })
   );
 });
