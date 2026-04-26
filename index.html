@@ -143,17 +143,17 @@
                 <h1>Nastavení a Zálohování</h1>
                 
                 <div class="settings-grid">
-                    <div class="settings-card glass">
+                    <div class="settings-card glass border-danger">
                         <h3>Export dat</h3>
                         <p>Stáhněte si kompletní lokální databázi (JSON) k offline zálohování.</p>
-                        <button id="export-btn" class="btn primary">Exportovat data</button>
+                        <button id="export-btn" class="btn danger">Exportovat data</button>
                     </div>
                     
-                    <div class="settings-card glass border-danger">
+                    <div class="settings-card glass" style="border-top: 3px solid #34d399;">
                         <h3>Import dat</h3>
                         <p>Obnovte aplikaci ze zálohy. <br><strong>Pozor:</strong> Aktuální data budou nenávratně přepsána!</p>
                         <input type="file" id="import-file" accept=".json" style="display: none;">
-                        <button id="import-btn" class="btn danger">Importovat data ze souboru</button>
+                        <button id="import-btn" class="btn" style="background: #34d399; color: white;">Importovat data ze souboru</button>
                     </div>
                 </div>
             </section>

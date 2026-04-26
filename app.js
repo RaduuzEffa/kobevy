@@ -25,7 +25,7 @@ function exportData() {
     downloadAnchorNode.remove();
 }
 
-function importData(file) {
+function importData(file, inputElement) {
     const reader = new FileReader();
     reader.onload = function(e) {
         try {
@@ -39,6 +39,11 @@ function importData(file) {
         } catch (err) {
             alert('CHYBA: Soubor se nepodařilo přečíst. Ujistěte se, že jde o platný JSON export.');
         }
+        if (inputElement) inputElement.value = '';
+    };
+    reader.onerror = function() {
+        alert('CHYBA při nahrávání souboru.');
+        if (inputElement) inputElement.value = '';
     };
     reader.readAsText(file);
 }
@@ -993,9 +998,10 @@ document.addEventListener('DOMContentLoaded', () => {
     importInput.addEventListener('change', (e) => {
         if (e.target.files.length > 0) {
             if (confirm('Opravdu chcete přepsat aktuální data novými daty ze zálohy?')) {
-                importData(e.target.files[0]);
+                importData(e.target.files[0], importInput);
+            } else {
+                importInput.value = ''; 
             }
-            importInput.value = ''; 
         }
     });
 
