@@ -346,3 +346,102 @@ h1 {
     font-size: 0.85rem;
     color: var(--text-muted);
 }
+
+/* Card Grid for dashboard */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 1rem;
+        gap: 1rem;
+        border-radius: 0;
+        border-bottom: 1px solid var(--glass-border);
+        border-right: none;
+    }
+    
+    .sidebar h2 {
+        font-size: 1rem;
+    }
+
+    .sidebar img {
+        max-width: 50px !important;
+    }
+    
+    nav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        gap: 0.5rem;
+    }
+    
+    .nav-btn {
+        white-space: nowrap;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .content {
+        padding: 1rem;
+    }
+    
+    .view-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .view-header h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .view-header div {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .view-header div select, .view-header div button {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .list-item > div:last-child {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
